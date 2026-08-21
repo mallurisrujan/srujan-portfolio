@@ -240,7 +240,7 @@ button {
 
 }
 
-.mobile-menu.active {
+.mobile-menu.open {
     display: flex;
 }
 
