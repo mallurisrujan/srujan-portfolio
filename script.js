@@ -6,13 +6,11 @@ const navbar = document.querySelector(".navbar");
 
 if (navbar) {
     window.addEventListener("scroll", () => {
-
         if (window.scrollY > 40) {
             navbar.classList.add("scrolled");
         } else {
             navbar.classList.remove("scrolled");
         }
-
     });
 }
 
@@ -26,19 +24,19 @@ const mobileMenu = document.getElementById("mobileMenu");
 
 if (menuButton && mobileMenu) {
 
-    /* Open / close menu */
-
+    // Open / close menu
     menuButton.addEventListener("click", () => {
 
-        menuButton.classList.toggle("active");
-        mobileMenu.classList.toggle("open");
-        document.body.classList.toggle("menu-open");
+        const isOpen = menuButton.classList.toggle("active");
+
+        mobileMenu.classList.toggle("open", isOpen);
+
+        document.body.classList.toggle("menu-open", isOpen);
 
     });
 
 
-    /* Close menu when clicking a link */
-
+    // Close menu when clicking a mobile link
     const mobileLinks = mobileMenu.querySelectorAll("a");
 
     mobileLinks.forEach(link => {
@@ -50,6 +48,20 @@ if (menuButton && mobileMenu) {
             document.body.classList.remove("menu-open");
 
         });
+
+    });
+
+
+    // Close menu when pressing Escape
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            menuButton.classList.remove("active");
+            mobileMenu.classList.remove("open");
+            document.body.classList.remove("menu-open");
+
+        }
 
     });
 
@@ -89,11 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-
     revealElements.forEach(element => {
-
         revealObserver.observe(element);
-
     });
 
 });
@@ -109,12 +118,7 @@ if (systemNodes.length > 0) {
 
     let currentNode = 0;
 
-    /* Make the first node active immediately */
-
     systemNodes[currentNode].classList.add("active");
-
-
-    /* Rotate active state */
 
     setInterval(() => {
 
@@ -122,9 +126,7 @@ if (systemNodes.length > 0) {
             node.classList.remove("active");
         });
 
-
         systemNodes[currentNode].classList.add("active");
-
 
         currentNode++;
 
@@ -148,7 +150,7 @@ const footer = document.querySelector("footer");
 if (footer) {
 
     footer.innerHTML = footer.innerHTML.replace(
-        "2026",
+        /2026/g,
         currentYear
     );
 
@@ -165,9 +167,7 @@ document.querySelectorAll("a").forEach(link => {
 
         const href = this.getAttribute("href");
 
-
-        /* Ignore links that should behave normally */
-
+        // Ignore links that should behave normally
         if (
             !href ||
             href.startsWith("#") ||
@@ -179,9 +179,7 @@ document.querySelectorAll("a").forEach(link => {
             return;
         }
 
-
-        /* Don't animate if opening in a new tab */
-
+        // Don't animate if opening in a new tab
         if (
             this.target === "_blank" ||
             event.ctrlKey ||
@@ -192,12 +190,10 @@ document.querySelectorAll("a").forEach(link => {
             return;
         }
 
-
         event.preventDefault();
 
 
-        /* Close mobile menu before leaving */
-
+        // Close mobile menu before navigating
         if (menuButton && mobileMenu) {
 
             menuButton.classList.remove("active");
@@ -207,13 +203,11 @@ document.querySelectorAll("a").forEach(link => {
         }
 
 
-        /* Start page exit animation */
-
+        // Start exit animation
         document.body.classList.add("page-leaving");
 
 
-        /* Navigate after animation */
-
+        // Navigate after animation
         setTimeout(() => {
 
             window.location.href = href;
@@ -221,26 +215,5 @@ document.querySelectorAll("a").forEach(link => {
         }, 300);
 
     });
-
-});
-
-
-/* =========================================================
-   ESCAPE KEY — CLOSE MOBILE MENU
-========================================================= */
-
-document.addEventListener("keydown", event => {
-
-    if (event.key === "Escape") {
-
-        if (menuButton && mobileMenu) {
-
-            menuButton.classList.remove("active");
-            mobileMenu.classList.remove("open");
-            document.body.classList.remove("menu-open");
-
-        }
-
-    }
 
 });
